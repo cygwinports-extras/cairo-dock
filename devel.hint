@@ -1,0 +1,10 @@
+category: X11
+requires: cairo-dock libcairo-devel libdbus-glib_1-devel libgdk_pixbuf2.0-devel libglib2.0-devel libgtk2.0-devel libgtkglext1.0-devel libpango1.0-devel librsvg2-devel libX11-devel libXcomposite-devel libXinerama-devel libxml2-devel libXrender-devel libXtst-devel
+external-source: cairo-doc
+sdesc: "Dock application (plugin development)"
+ldesc: "Cairo-Dock is a unified interface to your desktop: it provides a 
+dock, a taskbar, and many applets that can be placed either inside the 
+dock or on your desktop, at your convenience. It uses Cairo or OpenGL to 
+render nice graphics with hardware acceleration, which makes it very 
+smooth and low on CPU. It's highly customisable and comes with a lot of 
+ready-to-use themes."

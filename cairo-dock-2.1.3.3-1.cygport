@@ -1,0 +1,25 @@
+inherit gnome2
+
+upv="${PV[1]}.${PV[2]}.${PV[3]}-${PV[4]}"
+
+DESCRIPTION="Dock application (core)"
+HOMEPAGE="http://www.glx-dock.org/"
+SRC_URI="http://launchpad.net/cairo-dock-core/${PV[1]}.${PV[2]}/${upv%-*}/+download/${PN}-${upv}.tar.gz"
+SRC_DIR="${PN}-${upv}"
+
+PATCH_URI="
+	2.1.3.3-implib.patch
+	2.1.3.3-module-loader.patch
+"
+
+PKG_NAMES="${PN} ${PN}-devel"
+PKG_HINTS="setup devel"
+cairo_dock_CONTENTS="usr/bin/ usr/share/"
+cairo_dock_devel_CONTENTS="usr/include/ usr/lib/"
+
+src_install() {
+	cd ${B}
+	cyginstall
+
+	dolib src/libcairo-dock.exe.a
+}
