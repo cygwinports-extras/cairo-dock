@@ -1,0 +1,72 @@
+--- origsrc/cairo-dock-2.2.0-2/cairo-dock.pc.in	2010-09-18 06:53:14.000000000 -0500
++++ src/cairo-dock-2.2.0-2/cairo-dock.pc.in	2010-09-19 22:44:39.418560100 -0500
+@@ -7,7 +7,7 @@ pluginsdatadir=@datadir@/@PACKAGE@/plug-
+ 
+ Name: cairo-dock
+ Description: An eye-candy fully animated and configurable dock.
+-Requires: gtk+-2.0 gthread-2.0 cairo librsvg-2.0 dbus-1 dbus-glib-1 libxml-2.0 xrender gtkglext-1.0 @xextend_required@ @glitz_required@ @libgio_required@
++Requires: gtk+-2.0 gthread-2.0 cairo librsvg-2.0 dbus-1 dbus-glib-1 libxml-2.0 xrender gtkglext-1.0 @xextend_required@ @glitz_required@ @libgio_required@ gldi
+ Libs: -L${libdir}
+ Cflags: -I${includedir}/cairo-dock -I${includedir}/cairo-dock/cairo-dock -I${includedir}/cairo-dock/icon-factory
+ Version: @VERSION@
+--- origsrc/cairo-dock-2.2.0-2/src/CMakeLists.txt	2010-09-18 06:53:14.000000000 -0500
++++ src/cairo-dock-2.2.0-2/src/CMakeLists.txt	2010-09-19 22:27:08.766396800 -0500
+@@ -40,12 +40,11 @@ add_executable (${PROJECT_NAME}
+ 
+ # Link the executable to the librairies.
+ target_link_libraries (${PROJECT_NAME}
++	implementations
++	gldi
+ 	${PACKAGE_LIBRARIES}
+ 	${XEXTEND_LIBRARIES}
+-	${LIBCRYPT_LIBS}
+-	gldi
+-	icon-factory
+-	implementations)
++	${LIBCRYPT_LIBS})
+ 
+ # install the program once it is built.
+ install(
+--- origsrc/cairo-dock-2.2.0-2/src/gldit/CMakeLists.txt	2010-09-18 06:53:14.000000000 -0500
++++ src/cairo-dock-2.2.0-2/src/gldit/CMakeLists.txt	2010-09-19 22:25:52.502496200 -0500
+@@ -92,16 +92,23 @@ add_library ("gldi" SHARED ${core_lib_SR
+ 
+ # Link the executable to the librairies.
+ target_link_libraries("gldi"
++	icon-factory
++	implementations
+ 	${PACKAGE_LIBRARIES}
+ 	${XEXTEND_LIBRARIES}
+-	${LIBCRYPT_LIBS}
+-	icon-factory
+-	implementations)
++	${LIBCRYPT_LIBS})
+ 
++target_link_libraries("gldi"
++	LINK_INTERFACE_LIBRARIES
++	${PACKAGE_LIBRARIES}
++	${XEXTEND_LIBRARIES}
++	${LIBCRYPT_LIBS})
+ 
+ configure_file (${CMAKE_CURRENT_SOURCE_DIR}/gldi.pc.in ${CMAKE_CURRENT_BINARY_DIR}/gldi.pc)
+ install (FILES  ${CMAKE_CURRENT_BINARY_DIR}/gldi.pc DESTINATION ${libdir}/pkgconfig)
+-install (FILES  ${CMAKE_CURRENT_BINARY_DIR}/libgldi.so DESTINATION ${libdir})
++install (TARGETS gldi LIBRARY DESTINATION ${libdir}
++                      RUNTIME DESTINATION bin
++                      ARCHIVE DESTINATION ${libdir})
+ 
+ ########### install files ###############
+ 
+--- origsrc/cairo-dock-2.2.0-2/src/implementations/cairo-dock-icon-container.c	2010-09-18 06:53:14.000000000 -0500
++++ src/cairo-dock-2.2.0-2/src/implementations/cairo-dock-icon-container.c	2010-09-19 22:24:04.410840400 -0500
+@@ -41,8 +41,8 @@
+ #include "cairo-dock-backends-manager.h"
+ #include "cairo-dock-icon-container.h"
+ 
+-CairoDockImageBuffer g_pBoxAboveBuffer;
+-CairoDockImageBuffer g_pBoxBelowBuffer;
++G_MODULE_EXPORT CairoDockImageBuffer g_pBoxAboveBuffer;
++G_MODULE_EXPORT CairoDockImageBuffer g_pBoxBelowBuffer;
+ 
+ extern CairoDock *g_pMainDock;
+ extern CairoDockDesktopGeometry g_desktopGeometry;

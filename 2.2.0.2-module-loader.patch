@@ -1,6 +1,6 @@
---- origsrc/cairo-dock-2.1.3-3/src/cairo-dock-modules.c	2010-02-13 04:55:15.000000000 -0600
-+++ src/cairo-dock-2.1.3-3/src/cairo-dock-modules.c	2010-02-17 02:02:15.854041400 -0600
-@@ -157,7 +157,11 @@ static gchar *cairo_dock_extract_default
+--- origsrc/cairo-dock-2.2.0-2/src/gldit/cairo-dock-modules.c	2010-09-18 06:53:14.000000000 -0500
++++ src/cairo-dock-2.2.0-2/src/gldit/cairo-dock-modules.c	2010-09-19 19:32:37.559943600 -0500
+@@ -180,7 +180,11 @@ static gchar *cairo_dock_extract_default
  		ptr = cSoFilePath;
  	else
  		ptr ++;
@@ -12,7 +12,7 @@
  		ptr += 3;
  
  	if (strncmp (ptr, "cd-", 3) == 0)
-@@ -167,7 +171,7 @@ static gchar *cairo_dock_extract_default
+@@ -190,7 +194,7 @@ static gchar *cairo_dock_extract_default
  
  	gchar *cModuleName = g_strdup (ptr);
  
@@ -21,7 +21,7 @@
  	if (ptr != NULL)
  		*ptr = '\0';
  
-@@ -364,7 +368,7 @@ void cairo_dock_preload_module_from_dire
+@@ -391,7 +395,7 @@ void cairo_dock_load_modules_in_director
  		if (cFileName == NULL)
  			break ;
  		
